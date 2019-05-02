@@ -8,16 +8,18 @@ public class UserMenu {
 	public static void main(String[] args) throws IOException {
 
 		// Declare Variables
-		int userChoice;
-		Scanner sc = new Scanner(System.in);
-		LinkedList<PayCheck> paychecks = new LinkedList<PayCheck>();
-		boolean cont = true;
-		fileHandling fileHandler = new fileHandling();
+		int userChoice; // An interger holding the choice of the user from the menu in the console
+		Scanner sc = new Scanner(System.in); // Scanner used to read in the user decisions
+		LinkedList<PayCheck> paychecks = new LinkedList<PayCheck>(); // A linked list holding paycheck objects
+		boolean cont = true; // Boolean determining if the user wants to do something else inside of the menu
+		fileHandling fileHandler = new fileHandling(); // Object for the file handling class to open and read to/from
+														// the files
 
 		// Create new files if needed, and check to make sure the old ones are there
 		fileHandler.createNewFile();
-		
 		fileHandler.readPaycheck(paychecks);
+		fileHandler.readBudget(paychecks);
+		fileHandler.readExpenses(paychecks);
 
 		// While loop to have the user do multiple entries
 		while (cont) {
@@ -73,10 +75,10 @@ public class UserMenu {
 	public static void addNewPayCheck(LinkedList<PayCheck> paychecks) {
 
 		// Declare Variables
-		Scanner sc = new Scanner(System.in);
-		double payCheckAmount;
-		String payCheckDate;
-		String description;
+		Scanner sc = new Scanner(System.in); // Scanner used to read in the users data
+		double payCheckAmount; // double holding the paycheck amount in dollars entered by the user
+		String payCheckDate; // String holding the date of the paycheck entered by the user
+		String description; // A description of the paycheck entered by the user
 
 		// Ask the user to enter the information
 		System.out.print("\n\nPlease enter the pay check ammount: $");
@@ -89,8 +91,10 @@ public class UserMenu {
 		System.out.print("\nPlease enter a short description of the pay check: ");
 		description = sc.nextLine();
 
-		PayCheck tempVariable = new PayCheck(payCheckAmount, payCheckDate, description);
+		PayCheck tempVariable = new PayCheck(payCheckAmount, payCheckDate, description); // a temp paycheck object to
+																							// add to the linked list
 
+		// Adding the paycheck object to the linked list
 		paychecks.add(tempVariable);
 
 		System.out.println("\n\n");
@@ -329,14 +333,16 @@ public class UserMenu {
 			}
 
 			// Ask the use what section they would like to take the money out of
-			System.out.print("Which section would you like to take the money out of?");
+			System.out.println("\nWhich section would you like to take the money out of?\n");
 
 			// Loop printing a toString method from the budget object class
 			for (int i = 0; i < paychecks.get(correctCheck).budget.size(); i++) {
-				System.out.println(i + ") " + paychecks.get(correctCheck).budget.get(i).toString());
+				int displayNumber = i + 1;
+
+				System.out.println(displayNumber + ") " + paychecks.get(correctCheck).budget.get(i).toString());
 			}
 
-			// ASking the user to enter in the number that corosponds with the section
+			// ASking the user to enter in the number that corresponds with the section
 			System.out.print("\nPlease enter the number that corosponds with the section: ");
 			sectionNumber = sc.nextInt();
 
@@ -415,8 +421,11 @@ public class UserMenu {
 
 	public static void writeDataToFile(LinkedList<PayCheck> paychecks) throws IOException {
 
-		fileHandling fileHandler = new fileHandling();
+		// Decalre Variables
+		fileHandling fileHandler = new fileHandling(); // Object for the file handling class to open and read to/from
+														// the files
 
+		// Calling methods to write data out of the program
 		fileHandler.WritePayChecks(paychecks);
 		fileHandler.WriteExpenses(paychecks);
 		fileHandler.WriteBudget(paychecks);
