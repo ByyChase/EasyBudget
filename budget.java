@@ -62,6 +62,10 @@ public class budget {
 	public void setExpense(LinkedList<Expense> expense) {
 		this.expense = expense;
 	}
+	
+	public String getPayCheckDate() {
+		return payCheckDate;
+	}
 
 	@Override
 	public String toString() {

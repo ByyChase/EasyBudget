@@ -106,27 +106,16 @@ public class UserMenu {
 		String checkDate; // The date of the check the user wants to add the expense for
 		Scanner sc = new Scanner(System.in); // The scanner used to interact with the user
 		int correctCheck = 0; // The index of the check the user wants to add an expense for
+		findCorrect findCorrectLocation = new findCorrect(); // Object used to find correct locations inside of linked
+																// lists
 
 		// Ask the user for the date of the paycheck they want to add the expense for
 		System.out.print(
 				"\n\nPlease enter the date of the paycheck you want to add the expense for in the MM/DD/YYYY format: ");
 		checkDate = sc.nextLine();
 
-		// Check the size of the LL paychecks
-		int sizePayChecks = paychecks.size();
-
-		// ForLoop to find the index that has the correct paycheck in it
-		for (int i = 0; i < sizePayChecks; i++) {
-			if (checkDate.equals(paychecks.get(i).getPaycheckDate())) {
-				correctCheck = i;
-				break;
-			}
-
-			if (i == sizePayChecks - 1) {
-				System.out.println("\n Sorry, your paycheck was not found in the data base \n\n");
-				return;
-			}
-		}
+		// call the findPaycheck method to get the correct paycheck date
+		correctCheck = findCorrectLocation.findPaycheck(paychecks, checkDate);
 
 		// If the paycheck has not been split start the user off fresh
 		if (!paychecks.get(correctCheck).isPayCheckSplit()) {
@@ -312,6 +301,9 @@ public class UserMenu {
 		Expense temp; // Variable that holds a temp expense object to add to the linked list inside of
 						// the budget object
 
+		findCorrect findCorrectLocation = new findCorrect(); // Object used to find correct locations inside of linked
+																// lists
+
 		while (addMoreSections.equalsIgnoreCase("Y") || addMoreSections.equalsIgnoreCase("Yes")) {
 
 			// Ask the user for the date of the paycheck they want to add the expense for
@@ -319,18 +311,8 @@ public class UserMenu {
 					"\n\nPlease enter the date of the paycheck you want to add the expense for in the MM/DD/YYYY format: ");
 			checkDate = sc.nextLine();
 
-			// ForLoop to find the index that has the correct paycheck in it
-			for (int i = 0; i < sizePayChecks; i++) {
-				if (checkDate.equals(paychecks.get(i).getPaycheckDate())) {
-					correctCheck = i;
-					break;
-				}
-
-				if (i == sizePayChecks - 1) {
-					System.out.println("\n Sorry, your paycheck was not found in the data base \n\n");
-					return;
-				}
-			}
+			// Finding the correct
+			correctCheck = findCorrectLocation.findPaycheck(paychecks, checkDate);
 
 			// Ask the use what section they would like to take the money out of
 			System.out.println("\nWhich section would you like to take the money out of?\n");
@@ -393,27 +375,16 @@ public class UserMenu {
 		String checkDate; // The date of the check the user wants to add the expense for
 		Scanner sc = new Scanner(System.in); // The scanner used to interact with the user
 		int correctCheck = 0; // The index of the check the user wants to add an expense for
+		findCorrect findCorrectLocation = new findCorrect(); // Object used to find correct locations inside of linked
+																// lists
 
 		// Ask the user for the date of the paycheck they want to add the expense for
 		System.out.print(
 				"\n\nPlease enter the date of the paycheck you want to add the expense for in the MM/DD/YYYY format: ");
 		checkDate = sc.nextLine();
 
-		// Check the size of the LL paychecks
-		int sizePayChecks = paychecks.size();
-
-		// ForLoop to find the index that has the correct paycheck in it
-		for (int i = 0; i < sizePayChecks; i++) {
-			if (checkDate.equals(paychecks.get(i).getPaycheckDate())) {
-				correctCheck = i;
-				break;
-			}
-
-			if (i == sizePayChecks - 1) {
-				System.out.println("\n Sorry, your paycheck was not found in the data base \n\n");
-				return;
-			}
-		}
+		// call the findPaycheck method to get the correct paycheck date
+		correctCheck = findCorrectLocation.findPaycheck(paychecks, checkDate);
 
 		System.out.println(paychecks.get(correctCheck).toString());
 
