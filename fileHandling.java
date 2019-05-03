@@ -220,11 +220,14 @@ public class fileHandling {
 	 * 
 	 * @return: N/A
 	 */
-	public void readBudget(LinkedList<PayCheck> paycheck) throws IOException {
+	public void readBudget(LinkedList<PayCheck> paychecks) throws IOException {
 
 		// Declare Variables
-		Scanner sc = new Scanner(budget);
-		int correctCheck = 0;
+		Scanner sc = new Scanner(budget); // Scanner used to read in data from the budget file
+		int correctCheck = 0; // Integer holding the position of the correct check from the paycheck linked
+								// list
+		findCorrect findCorrectLocation = new findCorrect(); // Object used to find correct locations inside of linked
+																// lists
 
 		// While loop to run scanner until the file is empty
 		while (sc.hasNext()) {
@@ -240,24 +243,15 @@ public class fileHandling {
 			double sectionAmount = Double.parseDouble(tempArray[2]);
 			double ammountLeft = Double.parseDouble(tempArray[3]);
 
-			for (int i = 0; i < paycheck.size(); i++) {
-				if (payCheckDate.equals(paycheck.get(i).getPaycheckDate())) {
-					correctCheck = i;
-					break;
-				}
-
-				if (i == paycheck.size() - 1) {
-					System.out.println("\n ERROR \n budget.txt failed to read \n\n");
-					return;
-				}
-			}
+			// call the findPaycheck method to get the correct paycheck date
+			correctCheck = findCorrectLocation.findPaycheck(paychecks, payCheckDate);
 
 			// Creating a temp budget object
 			budget tempBudget = new budget(sectionName, sectionAmount, ammountLeft, payCheckDate);
 
 			// Adding the temp budget object to the budget linked list inside of the
 			// paycheck object
-			paycheck.get(correctCheck).budget.add(tempBudget);
+			paychecks.get(correctCheck).budget.add(tempBudget);
 
 		}
 
@@ -284,6 +278,8 @@ public class fileHandling {
 		String description; // String holding a description of the expense from the file
 		String payCheckDate; // String holding the date of the paycheck that the expense corosponds to
 		String budgetSectionName; // String holding the name of the budget section that the expense corosponds to
+		findCorrect findCorrectLocations = new findCorrect(); // Object used to find correct locations of paychecks and
+														  // budgets
 
 		// While loop to run scanner until the file is empty
 		while (sc.hasNext()) {
@@ -300,41 +296,15 @@ public class fileHandling {
 			payCheckDate = tempArray[3];
 			budgetSectionName = tempArray[4];
 
-			// For loop finding the correct paycheck and budget section that the expense
-			// corosponds to
-			for (int i = 0; i < paycheck.size(); i++) {
-				for (int k = 0; k < paycheck.get(i).getBudget().size(); k++) {
-
-					// If the paycheck date and section name match that of the expense
-					if (payCheckDate.equals(paycheck.get(i).getPaycheckDate())
-							&& budgetSectionName.equals(paycheck.get(i).getBudget().get(k).getSectionName())) {
-						correctCheck = i;
-						correctBudget = k;
-						break;
-					}
-
-					// if (k == paycheck.get(i).getBudget().size() - 1) {
-					// System.out.println("\n ERROR \n expense.txt failed to read \n\n");
-					// return;
-					// }
-
-				}
-			}
-
 			Expense tempExpense = new Expense(amount, date, description, payCheckDate, budgetSectionName); // A temp
 																											// expense
-																											// object
-																											// used to
-																											// add the
-																											// data back
-																											// into the
-																											// linked
-																											// list
-																											// isnide of
-																											// the
-																											// budget
-																											// class
+			// Find the correct budget section and paycheck using the findCorrect class
+			correctCheck = findCorrectLocations.findPaycheck(paycheck, payCheckDate);
+			correctBudget = findCorrectLocations.findBudgetSection(paycheck, payCheckDate, budgetSectionName);
 
+			//Splitting the string into a temp array 
+			
+			
 			// Adding the temp expense object to the linked list
 			paycheck.get(correctCheck).getBudget().get(correctBudget).expense.add(tempExpense);
 		}
